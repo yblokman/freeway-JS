@@ -1,0 +1,65 @@
+//valoresPlayer
+var velPlayer = 6
+var yPlayer = 369
+var xPlayer = 85
+var colisao = false
+var comprimentoCarro = 50
+var alturaCarro = 35
+var playerPontos = 3
+
+function mostraPlayer(){
+  image(imgAtor, xPlayer, yPlayer, 25, 25);
+}
+
+function movePlayer(){
+  if(keyIsDown(UP_ARROW)){
+    yPlayer -= velPlayer;
+  }
+  if(keyIsDown(DOWN_ARROW)){
+    if(podeMover()){   
+    yPlayer += velPlayer;
+    }  
+  }
+}
+
+function colidiu(){
+  //collideRectCircle(x1, y1, width1, height1, cx, cy, diameter)
+  for(var i = 0; i < imgCarros.length; i++){
+    colisao = collideRectCircle(xCarros[i],yCarros[i], comprimentoCarro, alturaCarro, xPlayer, yPlayer, 25)
+    if(colisao){
+      voltaInicial();
+      somColisao.play();
+      if(pontosMaiorQueZero()){
+        playerPontos -= 1
+      }
+    }
+  }
+}
+
+function voltaInicial(){
+  yPlayer = 368
+}
+
+function incluiPontos(){
+  fill(color(163, 0, 0))
+  textAlign(CENTER)
+  textSize(25)
+  text(playerPontos, width / 5, 25)
+  
+}
+
+function marcaPonto(){
+  if(yPlayer < 15){
+    playerPontos += 1
+    somPonto.play()
+    voltaInicial();
+  }
+}
+
+function pontosMaiorQueZero(){
+  return playerPontos > 0
+}
+
+function podeMover(){
+  return yPlayer < 369;
+}
